@@ -1,9 +1,12 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateSeguindoDto {
   @IsNotEmpty()
-  idSeguidor: number;
+  idSeguindo: number; //quem eu vou seguir
 
   @IsNotEmpty()
-  usuarioId: number;
+  usuarioId: number; //meu id
+
+  @IsOptional()
+  QuemSegue: string;
 }

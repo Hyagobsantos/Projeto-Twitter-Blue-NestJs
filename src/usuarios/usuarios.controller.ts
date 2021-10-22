@@ -22,7 +22,7 @@ export class UsuariosController {
 
   @Get(':nome')
   buscaRegistro(@Param('nome') nome: string): Promise<Usuario> {
-    return this.usuariosService.buscarRegistro(nome);
+    return this.usuariosService.buscarRegistroUnico(nome);
   }
 
   @Post()

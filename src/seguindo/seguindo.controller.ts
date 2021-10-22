@@ -1,33 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete, Get } from '@nestjs/common';
 import { SeguindoService } from './seguindo.service';
 import { CreateSeguindoDto } from './dto/create-seguindo.dto';
+import { Seguidores, Seguindo } from '.prisma/client';
 
 @Controller('seguindo')
 export class SeguindoController {
   constructor(private readonly seguindoService: SeguindoService) {}
 
-  @Post()
-  create(@Body() createSeguindoDto: CreateSeguindoDto) {
-    return 0;
-  }
-
   @Get()
-  findAll() {
-    return 0;
+  listartudo(): Promise<Seguindo[]> {
+    return this.seguindoService.listartodas();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.seguindoService.findOne(+id);
-  }
+  @Post()
+  create(@Body() createSeguindoDto: CreateSeguindoDto): Promise<Seguindo> {
+    this.seguindoService.seguidor(
+      createSeguindoDto.usuarioId,
+      createSeguindoDto.idSeguindo,
+    );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSeguindoDto: CreateSeguindoDto) {
-    return 0
+    console.log(createSeguindoDto.idSeguindo);
+    return this.seguindoService.create(createSeguindoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return 0
+  deletarSeguidor(@Param('id') id: string): Promise<Seguindo> {
+    return this.seguindoService.deleteSeguindo(+id);
   }
+
+  @Delete('seguidor/:id') //deixa de seguir um usuario
+  deleteSeguindo(@Param('id') id: string): Promise<Seguidores> {
+    return this.seguindoService.deletarSeguidor(+id);
+  }
+
 }
